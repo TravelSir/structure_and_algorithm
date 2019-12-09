@@ -150,6 +150,7 @@ def stack_dfs(node, model='front'):
                     result.append(node.data)
                 else:
                     stack.append(node)
+
     else:
         while node or stack:
             while node:
@@ -182,6 +183,8 @@ if __name__ == '__main__':
     head.left.right = TreeNode(5)
     head.right.left = TreeNode(6)
     head.right.right = TreeNode(7)
+    # 递归实现
     print(dfs(head), dfs(head, 'middle'), dfs(head, 'end'), bfs(head))
+    # 栈实现
     print(stack_dfs(head), stack_dfs(head, 'middle'), stack_dfs(head, 'end'))
 
