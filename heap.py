@@ -25,6 +25,7 @@
 def up(heap, stype='min'):
     child = len(heap) - 1
     parent = (child - 1) // 2
+    # 只需要记录上浮的节点的值即可，不用每次都互相交换，在上浮结束后一次赋值即可
     tem = heap[child]
     while child > 0 and ((tem < heap[parent] and stype=='min') or (tem > heap[parent] and stype=='max')):
         heap[child] = heap[parent]
@@ -59,16 +60,68 @@ def build(heap, stype='min'):
 
 
 # 优先队列
-def priority_queue(stype='min'):
-    pass
+class PriorityQueue:
+    def __init__(self, length=10, stype='min'):
+        self.heap = []
+        self.length = length
+        self.stype = stype
+
+    def add(self, num):
+        if len(self.heap) == self.length:
+            self.heap[0] = self.heap[-1]
+            self.down()
+            self.heap = self.heap[:-1]
+        self.heap.append(num)
+        self.up()
+
+    def pop(self):
+        self.heap[0] = self.heap[-1]
+        self.heap = self.heap[:-1]
+        self.down()
+
+    def up(self):
+        """上浮"""
+        child = len(self.heap) - 1
+        parent = (child - 1) // 2
+        tem = self.heap[child]
+        while child > 0 and ((tem > self.heap[parent] and self.stype == 'max') or (tem < self.heap[parent] and self.stype == 'min')):
+            self.heap[child] = self.heap[parent]
+            child = parent
+            parent = (child - 1) // 2
+        self.heap[child] = tem
+
+    def down(self):
+        """下沉"""
+        parent = 0
+        child = parent * 2 + 1
+        lens = len(self.heap)
+        tem = self.heap[parent]
+        while child < lens:
+            if child + 1 < lens and ((self.heap[child + 1] > self.heap[child] and self.stype == 'max') or (self.heap[child + 1] < self.heap[child] and self.stype == 'min')):
+                child += 1
+            if (self.heap[child] > tem and self.stype == 'max') or (self.heap[child] < tem and self.stype == 'min'):
+                self.heap[parent] = self.heap[child]
+                parent = child
+                child = parent * 2 + 1
+            else:
+                break
+        self.heap[parent] = tem
+
+    def __str__(self):
+        return str(self.heap)
 
 
 if __name__ == '__main__':
-    a = [1, 3, 2, 6, 5, 7, 8, 9, 10]
-    up(a, 'max')
-    print(a)
+    # a = [1, 3, 2, 6, 5, 7, 8, 9, 10]
+    # up(a, 'max')
+    # print(a)
     b = [7, 1, 3, 10, 5, 2, 8, 9, 6]
-    build(b, 'max')
-    print(b)
+    # build(b, 'max')
+    # print(b)
     build(b, 'min')
     print(b)
+
+    pr = PriorityQueue(stype='min', length=4)
+    for i in b:
+        pr.add(i)
+    print(pr)
