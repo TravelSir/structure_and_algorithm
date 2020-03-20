@@ -79,11 +79,35 @@ def bubble_sort_optimize_v2(array):
             return
 
 
+# 鸡尾酒排序
+@func_time
+def cocktail_sort(array):
+    lenth = len(array)
+    order = True  # 标记正序遍历还是逆序遍历
+    for i in range(lenth-1):
+        flag = True
+        # 正序遍历
+        if order:
+            for j in range(lenth - 1 - i):
+                if array[j] > array[j+1]:
+                    array[j], array[j+1] = array[j+1], array[j]
+                    flag = False
+        else:
+            for j in range(lenth - 1 - i, 0, -1):
+                if array[j] < array[j-1]:
+                    array[j], array[j-1] = array[j-1], array[j]
+                    flag = False
+                    
+        order = order is False
+        if flag:
+            return
+
+
 TEST_DATE = {
     'random': [random.randint(0, 100) for i in range(1000)],  # 随机
     'positive': [i for i in range(1000)],  # 完全正序
-    'reverse': [i for i in range(1000, 0, -1)],  # 完全倒序
-    'part_positive': [random.randint(0, 500) for i in range(500)] + [i for i in range(500, 1000)],  # 后部分正序
+    'end_positive': [random.randint(0, 500) for i in range(500)] + [i for i in range(500, 1000)],  # 后部分正序
+    'front_positive': [i for i in range(500)] + [random.randint(500, 1000) for i in range(500)],  # 前部分正序
 }
 
 if __name__ == '__main__':
@@ -92,6 +116,7 @@ if __name__ == '__main__':
         nums = TEST_DATE[k]
         nums2 = copy.deepcopy(nums)
         nums3 = copy.deepcopy(nums)
+        nums4 = copy.deepcopy(nums)
         print(f'排序前: {nums}')
 
         print('基础冒泡排序', end='')
@@ -105,4 +130,9 @@ if __name__ == '__main__':
         print('优化冒泡排序v2', end='')
         bubble_sort_optimize_v2(nums3)
         # print(f'排序后{nums3}')
+
+        print('鸡尾酒排序', end='')
+        cocktail_sort(nums4)
+        print(f'排序后{nums4}')
+
         print()
