@@ -25,11 +25,11 @@ import copy
 import random
 
 
-# 双边循环法 + 递归
 from 排序算法.bubbelSort import cocktail_sort
 from 排序算法.util import func_time
 
 
+# 双边循环法 + 递归
 def quick_sort(array, begin=None, end=None):
 
     if begin is None:
