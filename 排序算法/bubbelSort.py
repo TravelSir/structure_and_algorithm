@@ -20,24 +20,13 @@
 为什么叫鸡尾酒算法，因为鸡尾酒就是不断的从左边往右边倒，再从右边往左边倒来混合，就跟这个算法很形象
 """
 import copy
-import functools
 import random
-import time
-
-
-# 打印执行时间帽子
-def func_time(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        begin = time.time() * 1000
-        res = func(*args, **kwargs)
-        end = time.time() * 1000
-        print(f'执行了: {end - begin}毫秒')
-        return res
-    return wrapper
 
 
 # 简单冒泡排序
+from 排序算法.util import func_time
+
+
 @func_time
 def bubble_sort(array):
     lenth = len(array)
