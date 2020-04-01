@@ -105,3 +105,4 @@ if __name__ == '__main__':
     deq = deque([1, 2, 3])
     deq.append(4)
     print(deq.pop(), deq.popleft())
+
