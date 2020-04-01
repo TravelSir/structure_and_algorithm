@@ -48,7 +48,7 @@ def basic_opt(head):
 if __name__ == '__main__':
     # 初始化一个链表
     tem = link = Linked(1)
-    for i in range(2,6):
+    for i in range(2, 6):
         nex = Linked(i)
         tem.nex = nex
         tem = tem.nex
