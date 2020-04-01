@@ -55,7 +55,7 @@ def basic_opt(a):
     a.pop(2)
     print(a)
 
-    # 删除制定元素
+    # 删除指定元素
     # 同index不存在也会报错
     try:
         a.remove(0)
