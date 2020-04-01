@@ -95,4 +95,3 @@ if __name__ == '__main__':
     d['test3'] = 'i am three'
     print(d['test1'], d['test2'], d['test3'])
 
-
