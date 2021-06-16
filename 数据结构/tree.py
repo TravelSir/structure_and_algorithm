@@ -31,6 +31,9 @@
 
 
 # 二叉树链表实现
+from queue import Queue
+
+
 class TreeNode:
 
     def __init__(self, data=None, left=None, right=None):
@@ -59,19 +62,23 @@ def dfs(node, model='front'):
 
 
 # 递归BFS = 层序遍历
-def bfs(node, result=None):
-    if node is None:
-        return list()
-    if result is None:
-        result = [node.data]
-    if node.left:
-        result.append(node.left.data)
-    if node.right:
-        result.append(node.right.data)
-    if node.left:
-        result = bfs(node.left, result)
-    if node.right:
-        result = bfs(node.right, result)
+def bfs(node):
+    # bfs需要用队列来做
+    result = list()
+    if not node:
+        return result
+
+    queue = Queue()
+    queue.put(node)
+
+    while not queue.empty():
+        node = queue.get()
+        result.append(node.data)
+        if node.left:
+            queue.put(node.left)
+        if node.right:
+            queue.put(node.right)
+
     return result
 
 
@@ -183,6 +190,8 @@ if __name__ == '__main__':
     head.left.right = TreeNode(5)
     head.right.left = TreeNode(6)
     head.right.right = TreeNode(7)
+    head.left.left.left = TreeNode(8)
+    head.left.left.right = TreeNode(9)
     # 递归实现
     print(dfs(head), dfs(head, 'middle'), dfs(head, 'end'), bfs(head))
     # 栈实现
