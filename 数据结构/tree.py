@@ -121,52 +121,48 @@ def end_traverse(node, result=None):
 # 当树节点足够多的时候，使用递归会造成堆栈溢出，python默认递归次数最大是1000，可以通过sys.setrecursionlimit(n)方法来设置更大值。
 # 所以绝大多数递归都能使用栈来替代，因为递归和栈都有回溯的特性
 def stack_dfs(node, model='front'):
-    result = []
-    if node is None:
+    result = list()
+    if not node:
         return result
-    stack = []
-    if model == 'middle':
-        while node or stack:
-            while node:
-                stack.append(node)
-                node = node.left
+
+    if model == "front":
+        stack = [node]
+        while stack:
+            _node = stack.pop()
+            result.append(_node.data)
+            if _node.right:
+                stack.append(_node.right)
+            if _node.left:
+                stack.append(_node.left)
+
+    elif model == "middle":
+        stack = list()
+        _node = node
+        while _node or stack:
+            while _node:
+                stack.append(_node)
+                _node = _node.left
             if stack:
                 tem = stack.pop()
                 result.append(tem.data)
-                node = tem.right
-
-    elif model == 'end':
-        # 后序遍历使用栈遍历会比前序和中序要难很多。需要标记节点是否遍历完右子树
-        stack.append(node)
-        while stack:
-            if node and not node.flag:
-                while node:
-                    tem = None
-                    if node.right:
-                        stack.append(node.right)
-                        tem = node.right
-                    if node.left:
-                        stack.append(node.left)
-                        tem = node.left
-                    node.flag = True
-                    node = tem
-            if stack:
-                node = stack.pop()
-                # 在遇到没有遍历完右子树的节点时，我们还要把它塞回栈
-                if node.flag:
-                    result.append(node.data)
-                else:
-                    stack.append(node)
+                _node = tem.right
 
     else:
-        while node or stack:
-            while node:
-                stack.append(node)
-                result.append(node.data)
-                node = node.left
-            if stack:
-                tem = stack.pop()
-                node = tem.right
+        stack = [node]
+        while stack:
+            _node = stack.pop()
+            if _node.flag is True:
+                result.append(_node.data)
+                continue
+            if _node.left or _node.right:
+                stack.append(_node)
+                _node.flag = True
+                if _node.right:
+                    stack.append(_node.right)
+                if _node.left:
+                    stack.append(_node.left)
+            else:
+                result.append(_node.data)
 
     return result
 
